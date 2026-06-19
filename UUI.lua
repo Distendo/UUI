@@ -738,7 +738,7 @@ end
 --[[
     TAB CLASS
 ]]
-local TabClass = {}
+TabClass = {}
 TabClass.__index = TabClass
 
 function TabClass.new(window, name)
