@@ -337,6 +337,7 @@ end
 ]]
 local WindowClass = {}
 WindowClass.__index = WindowClass
+local TabClass -- forward declaration for CreateTab
 
 function WindowClass.new(title, settings)
     local self = setmetatable({}, WindowClass)
@@ -695,7 +696,7 @@ function WindowClass:MobileSetup()
     if not UserInputService.TouchEnabled then return end
 
     self._mobileCon = RunService.RenderStepped:Connect(function()
-        if not self.Frame then return end
+        if not self.Frame or not workspace.CurrentCamera then return end
         local vs = workspace.CurrentCamera.ViewportSize
         local pos = self.Frame.AbsolutePosition
         local size = self.Frame.AbsoluteSize
