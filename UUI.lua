@@ -340,7 +340,17 @@ WindowClass.__index = WindowClass
 
 function WindowClass.new(title, settings)
     local self = setmetatable({}, WindowClass)
-    self.Title = title or "UUI"
+
+    -- Handle non-string title (e.g. passed table as first arg)
+    if type(title) ~= "string" then
+        if type(title) == "table" then
+            settings = title
+            title = settings.Title or "UUI"
+        else
+            title = "UUI"
+        end
+    end
+    self.Title = title
     self.Settings = settings or {}
     self.Tabs = {}
     self.Visible = true
