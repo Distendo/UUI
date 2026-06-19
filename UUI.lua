@@ -1,6 +1,6 @@
 --[[
     UUI - UU's UI Library
-    Version: 1.0.0
+    Version: 1.2.0
     Modern, lightweight, highly customizable UI framework for Roblox
 ]]
 
@@ -9,6 +9,9 @@ local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
 local CoreGui = game:GetService("CoreGui")
+
+-- Forward declarations
+local UUIModule = {}
 
 --[[
     THEME
@@ -37,6 +40,86 @@ local Theme = {
     Stroke = Color3.fromRGB(50, 50, 65),
     Glow = Color3.fromRGB(120, 145, 255),
 }
+
+--[[
+    THEME REGISTRY
+]]
+local Themes = {
+    Dark = {
+        Background = Color3.fromRGB(18, 18, 24),
+        BackgroundAlt = Color3.fromRGB(22, 22, 32),
+        Surface = Color3.fromRGB(28, 28, 38),
+        SurfaceLight = Color3.fromRGB(34, 34, 46),
+        Element = Color3.fromRGB(38, 38, 50),
+        ElementLight = Color3.fromRGB(42, 42, 56),
+        ElementHover = Color3.fromRGB(52, 52, 68),
+        Accent = Color3.fromRGB(100, 130, 255),
+        AccentHover = Color3.fromRGB(130, 155, 255),
+        Text = Color3.fromRGB(235, 235, 245),
+        TextDim = Color3.fromRGB(155, 155, 170),
+        TextMuted = Color3.fromRGB(110, 110, 130),
+        Danger = Color3.fromRGB(255, 75, 75),
+        Success = Color3.fromRGB(75, 200, 120),
+        Warning = Color3.fromRGB(255, 195, 60),
+        Shadow = Color3.fromRGB(0, 0, 0),
+        Overlay = Color3.fromRGB(0, 0, 0),
+        ToggleOff = Color3.fromRGB(55, 55, 70),
+        ToggleOn = Color3.fromRGB(100, 130, 255),
+        ScrollBar = Color3.fromRGB(55, 55, 70),
+        Stroke = Color3.fromRGB(50, 50, 65),
+        Glow = Color3.fromRGB(120, 145, 255),
+    },
+    Light = {
+        Background = Color3.fromRGB(245, 245, 250),
+        BackgroundAlt = Color3.fromRGB(240, 240, 248),
+        Surface = Color3.fromRGB(255, 255, 255),
+        SurfaceLight = Color3.fromRGB(250, 250, 255),
+        Element = Color3.fromRGB(235, 235, 242),
+        ElementLight = Color3.fromRGB(228, 228, 238),
+        ElementHover = Color3.fromRGB(220, 220, 232),
+        Accent = Color3.fromRGB(80, 110, 240),
+        AccentHover = Color3.fromRGB(60, 90, 220),
+        Text = Color3.fromRGB(25, 25, 35),
+        TextDim = Color3.fromRGB(100, 100, 120),
+        TextMuted = Color3.fromRGB(140, 140, 160),
+        Danger = Color3.fromRGB(220, 50, 50),
+        Success = Color3.fromRGB(50, 170, 90),
+        Warning = Color3.fromRGB(220, 170, 30),
+        Shadow = Color3.fromRGB(0, 0, 0),
+        Overlay = Color3.fromRGB(0, 0, 0),
+        ToggleOff = Color3.fromRGB(200, 200, 215),
+        ToggleOn = Color3.fromRGB(80, 110, 240),
+        ScrollBar = Color3.fromRGB(200, 200, 215),
+        Stroke = Color3.fromRGB(210, 210, 225),
+        Glow = Color3.fromRGB(80, 110, 240),
+    },
+    Midnight = {
+        Background = Color3.fromRGB(8, 8, 16),
+        BackgroundAlt = Color3.fromRGB(12, 12, 24),
+        Surface = Color3.fromRGB(16, 16, 30),
+        SurfaceLight = Color3.fromRGB(22, 22, 38),
+        Element = Color3.fromRGB(26, 26, 42),
+        ElementLight = Color3.fromRGB(30, 30, 48),
+        ElementHover = Color3.fromRGB(38, 38, 58),
+        Accent = Color3.fromRGB(140, 80, 255),
+        AccentHover = Color3.fromRGB(160, 110, 255),
+        Text = Color3.fromRGB(225, 225, 240),
+        TextDim = Color3.fromRGB(130, 130, 160),
+        TextMuted = Color3.fromRGB(90, 90, 120),
+        Danger = Color3.fromRGB(255, 60, 80),
+        Success = Color3.fromRGB(60, 190, 130),
+        Warning = Color3.fromRGB(250, 185, 50),
+        Shadow = Color3.fromRGB(0, 0, 0),
+        Overlay = Color3.fromRGB(0, 0, 0),
+        ToggleOff = Color3.fromRGB(40, 40, 60),
+        ToggleOn = Color3.fromRGB(140, 80, 255),
+        ScrollBar = Color3.fromRGB(45, 45, 65),
+        Stroke = Color3.fromRGB(40, 40, 55),
+        Glow = Color3.fromRGB(140, 80, 255),
+    },
+}
+
+local CurrentThemeName = "Dark"
 
 --[[
     TWEEN PRESETS
@@ -136,6 +219,76 @@ local function DarkenColor(c, amount)
         Clamp(c.G - amount, 0, 1),
         Clamp(c.B - amount, 0, 1)
     )
+end
+
+--[[
+    ICONS
+]]
+local Icons = {
+    Home = "⌂",
+    Settings = "⚙",
+    User = "U",
+    Plus = "+",
+    Minus = "−",
+    Close = "×",
+    Check = "✓",
+    Cross = "✗",
+    ArrowRight = "→",
+    ArrowLeft = "←",
+    ArrowUp = "↑",
+    ArrowDown = "↓",
+    Star = "★",
+    Heart = "♥",
+    Bell = "🔔",
+    Search = "⌕",
+    Info = "i",
+    Warning = "▲",
+    Edit = "✎",
+    Trash = "🗑",
+    Folder = "📁",
+    File = "📄",
+    Clock = "🕐",
+    Bolt = "⚡",
+    Fire = "🔥",
+    Shield = "🛡",
+    Diamond = "◆",
+    Circle = "●",
+    Square = "■",
+    Music = "♫",
+    Tag = "#",
+    Game = "🎮",
+    Globe = "🌐",
+    Lock = "🔒",
+    Unlock = "🔓",
+    Key = "🔑",
+    Gift = "🎁",
+    Cup = "🏆",
+}
+
+--[[
+    EXTENSION SYSTEM
+]]
+local Extensions = {}
+local ActiveExtensions = {}
+
+function UUIModule.RegisterExtension(name, def)
+    if type(name) ~= "string" or type(def) ~= "table" then
+        warn("UUI: RegisterExtension requires (string, table)")
+        return
+    end
+    Extensions[name] = def
+end
+
+function UUIModule.GetExtension(name)
+    return Extensions[name]
+end
+
+function UUIModule.GetExtensions()
+    local list = {}
+    for name in pairs(Extensions) do
+        table.insert(list, name)
+    end
+    return list
 end
 
 --[[
@@ -600,6 +753,10 @@ function WindowClass:DraggingSetup()
             input.Changed:Connect(function()
                 if input.UserInputState == Enum.UserInputState.End then
                     dragging = false
+                    if self._autoSync then
+                        task.wait(0.05)
+                        self:SaveState()
+                    end
                 end
             end)
         end
@@ -687,6 +844,17 @@ function WindowClass:Destroy()
         self._mobileCon:Disconnect()
     end
 
+    -- Cleanup extensions
+    if ActiveExtensions[self] then
+        for name in pairs(ActiveExtensions[self]) do
+            local def = Extensions[name]
+            if type(def.OnRemove) == "function" then
+                pcall(def.OnRemove, self)
+            end
+        end
+        ActiveExtensions[self] = nil
+    end
+
     tween.Completed:Connect(function()
         self.Gui:Destroy()
     end)
@@ -724,12 +892,151 @@ function WindowClass:MobileSetup()
     end)
 end
 
-function WindowClass:CreateTab(name)
-    local tab = TabClass.new(self, name)
+--[[
+    EXTENSION METHODS
+]]
+function WindowClass:UseExtension(name, config)
+    local def = Extensions[name]
+    if not def then
+        warn("UUI: Extension '" .. tostring(name) .. "' not registered")
+        return
+    end
+    if not ActiveExtensions[self] then
+        ActiveExtensions[self] = {}
+    end
+    if ActiveExtensions[self][name] then
+        return -- already active
+    end
+
+    local instance = {
+        Name = name,
+        Config = config or {},
+        _cleanup = {},
+    }
+
+    if type(def.OnInit) == "function" then
+        local ok, err = pcall(def.OnInit, self, config)
+        if not ok then
+            warn("UUI: Extension '" .. name .. "' OnInit error:", err)
+            return
+        end
+    end
+
+    if type(def.OnTabCreate) == "function" then
+        table.insert(instance._cleanup, function()
+            -- hook into future tab creation
+        end)
+    end
+
+    ActiveExtensions[self][name] = instance
+end
+
+function WindowClass:RemoveExtension(name)
+    if not ActiveExtensions[self] then return end
+    local instance = ActiveExtensions[self][name]
+    if not instance then return end
+
+    local def = Extensions[name]
+    if type(def.OnRemove) == "function" then
+        pcall(def.OnRemove, self)
+    end
+
+    for _, cleanup in ipairs(instance._cleanup) do
+        pcall(cleanup)
+    end
+
+    ActiveExtensions[self][name] = nil
+end
+
+function WindowClass:GetExtensions()
+    if not ActiveExtensions[self] then return {} end
+    local list = {}
+    for name in pairs(ActiveExtensions[self]) do
+        table.insert(list, name)
+    end
+    return list
+end
+
+--[[
+    STATE SYNC
+]]
+function WindowClass:SaveState(key)
+    local state = {
+        Position = {
+            X = self.Frame.Position.X.Offset,
+            Y = self.Frame.Position.Y.Offset,
+        },
+        Size = {
+            X = self.Size.X,
+            Y = self.Size.Y,
+        },
+        Visible = self.Visible,
+        ActiveTab = self._activeTabName or nil,
+    }
+
+    local storeKey = "UUI_State_" .. (key or self.Title)
+    local suc, encoded = pcall(function()
+        return game:GetService("HttpService"):JSONEncode(state)
+    end)
+    if suc then
+        _G[storeKey] = encoded
+    end
+
+    self._savedState = state
+end
+
+function WindowClass:LoadState(key)
+    local storeKey = "UUI_State_" .. (key or self.Title)
+    local raw = _G[storeKey]
+    if not raw then
+        if self._savedState then
+            raw = game:GetService("HttpService"):JSONEncode(self._savedState)
+        else
+            return
+        end
+    end
+
+    local suc, state = pcall(function()
+        return game:GetService("HttpService"):JSONDecode(raw)
+    end)
+    if not suc or type(state) ~= "table" then return end
+
+    if state.Position then
+        self.Frame.Position = UDim2.new(0, state.Position.X, 0, state.Position.Y)
+    end
+    if state.Size then
+        self.Size = Vector2.new(state.Size.X, state.Size.Y)
+        self.Frame.Size = UDim2.new(0, state.Size.X, 0, state.Size.Y)
+    end
+    if state.Visible == false and self.Visible then
+        self:ToggleVisibility()
+    elseif state.Visible == true and not self.Visible then
+        self:ToggleVisibility()
+    end
+    if state.ActiveTab then
+        for _, tab in ipairs(self.Tabs) do
+            if tab.Name == state.ActiveTab then
+                tab:Select()
+                break
+            end
+        end
+    end
+end
+
+function WindowClass:SetupAutoSync()
+    self._autoSync = true
+end
+
+function WindowClass:CreateTab(name, icon)
+    local tab = TabClass.new(self, name, icon)
     table.insert(self.Tabs, tab)
 
     if #self.Tabs == 1 then
         tab:Select()
+    end
+
+    if self._autoSync then
+        self:SaveState()
     end
 
     return tab
@@ -741,14 +1048,14 @@ end
 TabClass = {}
 TabClass.__index = TabClass
 
-function TabClass.new(window, name)
+function TabClass.new(window, name, icon)
     local self = setmetatable({}, TabClass)
     self.Window = window
     self.Name = name
     self.Elements = {}
     self.Selected = false
 
-    local shortName = name:sub(1, 1):upper()
+    local iconChar = Icons[icon] or icon or name:sub(1, 1):upper()
 
     -- Tab button
     self.Button = Create("ImageButton", {
@@ -761,10 +1068,10 @@ function TabClass.new(window, name)
     })
     AddCorner(self.Button, 9)
 
-    -- Icon (first letter)
-    local iconLabel = MakeTextLabel(shortName, UDim2.new(0, 18, 1, 0), Enum.Font.GothamSemibold, 13, Theme.TextDim, Enum.TextXAlignment.Center)
-    iconLabel.Position = UDim2.new(0, 0, 0, 0)
-    iconLabel.Parent = self.Button
+    -- Icon
+    self.IconLabel = MakeTextLabel(iconChar, UDim2.new(0, 18, 1, 0), Enum.Font.GothamSemibold, 13, Theme.TextDim, Enum.TextXAlignment.Center)
+    self.IconLabel.Position = UDim2.new(0, 0, 0, 0)
+    self.IconLabel.Parent = self.Button
 
     -- Indicator
     self.Indicator = Create("Frame", {
@@ -813,7 +1120,7 @@ function TabClass.new(window, name)
             TweenService:Create(self.Button, TweenPresets.Quick, {
                 BackgroundTransparency = 0.85,
             }):Play()
-            TweenService:Create(iconLabel, TweenPresets.Quick, {
+            TweenService:Create(self.IconLabel, TweenPresets.Quick, {
                 TextColor3 = Theme.Text,
             }):Play()
         end
@@ -824,7 +1131,7 @@ function TabClass.new(window, name)
             TweenService:Create(self.Button, TweenPresets.Quick, {
                 BackgroundTransparency = 1,
             }):Play()
-            TweenService:Create(iconLabel, TweenPresets.Quick, {
+            TweenService:Create(self.IconLabel, TweenPresets.Quick, {
                 TextColor3 = Theme.TextDim,
             }):Play()
         end
@@ -900,6 +1207,16 @@ function TabClass:Select()
     if self.Container then
         self.Container.Visible = true
     end
+
+    -- Track active tab for sync
+    self.Window._activeTabName = self.Name
+    if self.Window._autoSync then
+        task.delay(0.15, function()
+            if self.Window and not self.Window._destroyed then
+                self.Window:SaveState()
+            end
+        end)
+    end
 end
 
 -- Element container builder
@@ -921,7 +1238,7 @@ end
 --[[
     BUTTON ELEMENT
 ]]
-function TabClass:CreateButton(text, callback)
+function TabClass:CreateButton(text, callback, icon)
     local container = self:BuildContainer(38)
     container.ClipsDescendants = false
 
@@ -934,8 +1251,18 @@ function TabClass:CreateButton(text, callback)
     })
     AddCorner(hover, 9)
 
-    local label = MakeTextLabel(text, UDim2.new(1, -42, 1, 0), Enum.Font.Gotham, 14, Theme.Text, Enum.TextXAlignment.Left)
-    label.Position = UDim2.new(0, 14, 0, 0)
+    local iconChar = icon and (Icons[icon] or icon)
+    local labelOffset = iconChar and 32 or 14
+
+    if iconChar then
+        local iconLabel = MakeTextLabel(iconChar, UDim2.new(0, 20, 1, 0), Enum.Font.Gotham, 15, Theme.Accent, Enum.TextXAlignment.Center)
+        iconLabel.Position = UDim2.new(0, 10, 0, 0)
+        iconLabel.TextTransparency = 0.2
+        iconLabel.Parent = container
+    end
+
+    local label = MakeTextLabel(text, UDim2.new(1, -(42 + (iconChar and 14 or 0)), 1, 0), Enum.Font.Gotham, 14, Theme.Text, Enum.TextXAlignment.Left)
+    label.Position = UDim2.new(0, labelOffset, 0, 0)
     label.Parent = container
 
     local arrow = MakeTextLabel("→", UDim2.new(0, 24, 1, 0), Enum.Font.Gotham, 16, Theme.Accent, Enum.TextXAlignment.Center)
@@ -1006,6 +1333,7 @@ function TabClass:CreateButton(text, callback)
     local element = {
         Type = "Button",
         Text = text,
+        Icon = icon,
         Object = container,
         UpdateText = function(newText)
             label.Text = newText
@@ -1606,8 +1934,6 @@ end
 --[[
     MAIN MODULE
 ]]
-local UUIModule = {}
-
 function UUIModule.CreateWindow(title, settings)
     return WindowClass.new(title, settings)
 end
@@ -1616,6 +1942,7 @@ function UUIModule.Notify(config)
     NotifyFn(config)
 end
 
+-- Theme APIs
 function UUIModule.SetTheme(overrides)
     if type(overrides) ~= "table" then return end
     for k, v in pairs(overrides) do
@@ -1633,8 +1960,56 @@ function UUIModule.GetTheme()
     return copy
 end
 
+function UUIModule.RegisterTheme(name, data)
+    if type(name) ~= "string" or type(data) ~= "table" then return end
+    local theme = {}
+    for k in pairs(Theme) do
+        theme[k] = data[k] or Theme[k]
+    end
+    Themes[name] = theme
+end
+
+function UUIModule.ApplyTheme(name)
+    local theme = Themes[name]
+    if not theme then
+        warn("UUI: Theme '" .. tostring(name) .. "' not found")
+        return
+    end
+    CurrentThemeName = name
+    for k, v in pairs(theme) do
+        if Theme[k] ~= nil then
+            Theme[k] = v
+        end
+    end
+end
+
+function UUIModule.GetCurrentTheme()
+    return CurrentThemeName
+end
+
+function UUIModule.GetThemeNames()
+    local list = {}
+    for name in pairs(Themes) do
+        table.insert(list, name)
+    end
+    return list
+end
+
+-- Icon helper
+function UUIModule.GetIcon(name)
+    return Icons[name] or name or ""
+end
+
+function UUIModule.GetIconNames()
+    local list = {}
+    for name in pairs(Icons) do
+        table.insert(list, name)
+    end
+    return list
+end
+
 -- Version info
-UUIModule.Version = "1.0.0"
+UUIModule.Version = "1.2.0"
 UUIModule.Name = "UUI - UU's UI Library"
 
 return UUIModule
