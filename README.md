@@ -32,7 +32,7 @@ A modern, lightweight, and highly customizable UI framework for Roblox.
 ## Quick Start
 
 ```lua
-local UI = loadstring(game:HttpGet("YOUR_RAW_URL_HERE"))()
+local UI = loadstring(game:HttpGet("https://raw.githubusercontent.com/Distendo/UUI/refs/heads/main/UUI.lua"))()
 
 local Window = UI:CreateWindow("My Hub", {
     Keybind = "RightControl"
